@@ -1,0 +1,80 @@
+ /*******************************************************************************
+ *
+ * NAME     : dr181968.bteq
+ *
+ * PURPOSE  : DR regression test suite creation
+ *
+ * ABSTRACT : Resource Leak: snapshotdump/ HandleResourceLeak/ 
+ *				awtmain/ tsknewthread/ start_thread/ clone
+ *
+ * HISTORY  : 2016/07/18 RP255005 Created.
+ *
+ *******************************************************************************/
+ .set session trans btet;
+ .logon NODEID/dbc,dbc;
+ 
+ delete user dr181968_usr;
+ drop user dr181968_usr;
+ 
+ create user dr181968_usr as perm=(hashamp()+1)*3e7 password=dr181968_usr;
+ 
+ grant all on dr181968_usr to dr181968_usr,dbc with grant option;
+
+.logon dr181968_usr,dr181968_usr
+
+diagnostic "agrpush4unionall=4" on for session;
+
+create multiset table tbl_int,map=td_map1
+       (I1  integer not null
+       ,I2  integer not null
+       ,I3  integer)
+primary index (i1)
+index VONUSI_I3 (I3) order by hash (I3)
+;
+
+create table dr185395_usr2.parent_table_1,fallback, map=map1count3 
+(col1 integer, col2 integer) unique primary index (col1)
+;
+create table dr185395_usr3.parent_table_1,fallback, map=map1count3 
+(col1 integer, col2 integer) unique primary index (col1);
+
+create table dr185395_usr4.parent_table_1,fallback,
+ map=map1count3 
+(col1 integer, col2 integer) unique primary index (col1)
+;
+create table dr185395_usr5.parent_table_1,
+fallback,map=map1count3 
+(col1 integer, col2 integer) unique primary index (col1);
+
+create table dr185395_usr6.parent_table_1,
+fallback map=map1count3 
+(col1 integer, col2 integer) unique primary index (col1);
+
+create table dr185395_usr7.parent_table_1,
+fallback ,  map= map1count3 
+(col1 integer, col2 integer) unique primary index (col1)
+;
+create table dr185395_usr8.parent_table_1,
+fallback,  map = map1count3 
+(col1 integer, col2 integer) unique primary index (col1);
+
+create table dr185395_usr9.parent_table_1,
+fallback, map=map1count3 
+(col1 integer, col2 integer) unique primary index (col1);
+
+create table dr185395_usr10.parent_table_1,
+fallback ,
+map= map1count3 
+(col1 integer, col2 integer) unique primary index (col1);
+
+create table dr185395_usr10.parent_table_1,
+fallback ,
+map= map1count3(col1 integer, col2 integer) unique primary index (col1);
+
+.logon dbc,dbc;
+
+delete user dr181968_usr;
+drop user dr181968_usr;
+
+.logoff;
+.quit;

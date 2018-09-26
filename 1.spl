@@ -1,0 +1,23 @@
+cretate procedure s1(in a int)
+begin
+l1:
+while  a>0 do
+set a=a-1;
+if a>5   then iterate l1;
+end if;
+insert t1(:a);
+end while l1;
+end
+
+create procedure s2(in b int)
+begin
+repeat
+	set b=b-1;
+until b>5
+end repeat;
+repeat 
+	insert t2(:b);
+	set b=b-1;
+until b>0
+end repeat;
+end;
